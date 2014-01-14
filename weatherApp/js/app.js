@@ -1,8 +1,8 @@
 $(function () { // wait for on-ready
 
-var SummaryView = require('./views/summary');
-var DetailView = require('./views/details');
-var ForecastView = require('./views/forecast');
+var SummaryView = require('./views/summary.js');
+var DetailView = require('./views/details.js');
+var ForecastView = require('./views/forecast.js');
 
 var WeatherModel = require('./models/weather');
 

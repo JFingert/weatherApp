@@ -13,6 +13,7 @@ var ForecastView = Backbone.View.extend({
     var context = {};
     var daily = this.model.get('daily') || {data: []};
     context.sevenDayForecast = [];
+    console.log(daily);
 
     daily.data.forEach(function (day) {
       var contextData = {};
@@ -20,6 +21,7 @@ var ForecastView = Backbone.View.extend({
       var timeStamp = new Date(day.time * 1000);
       // var sunrise = new Date(day.sunriseTime * 1000);
       // var sunset = new Date(day.sunsetTime * 1000);
+      contextData.summary = day.summary;
       contextData.date = week[timeStamp.getDay()] + '(' + (timeStamp.getMonth() + 1) + '/' + timeStamp.getDate() + ')';
       contextData.maxTemp = day.temperatureMax;
       contextData.minTemp = day.temperatureMin;

@@ -1,4 +1,4 @@
-$(function () { // wait for on-ready
+$(function () { // beefy js/app.js:bundle.js --live
 
 var SummaryView = require('./views/summary.js');
 var DetailView = require('./views/details.js');

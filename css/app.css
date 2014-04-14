@@ -8,6 +8,11 @@ body {
   width: 900px;
   margin: 20px auto;
 }
+
+
+.active{
+	color: grey;
+}
 /*
 .panel {
   background-color: #646464;

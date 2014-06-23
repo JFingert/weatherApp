@@ -688,11 +688,10 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression;
 
 
-  buffer += "<h1>Current temperature: "
+  buffer += "Current temperature <span style=\"\">"
     + escapeExpression(((stack1 = ((stack1 = (depth0 && depth0.currently)),stack1 == null || stack1 === false ? stack1 : stack1.temperature)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
-    + "</h1>\n<h1>Current conditions "
-    + escapeExpression(((stack1 = ((stack1 = (depth0 && depth0.currently)),stack1 == null || stack1 === false ? stack1 : stack1.summary)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
-    + "</h1>";
+    + "<br>\nCurrent conditions "
+    + escapeExpression(((stack1 = ((stack1 = (depth0 && depth0.currently)),stack1 == null || stack1 === false ? stack1 : stack1.summary)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1));
   return buffer;
   });
 },{"/Users/joshuafingert/git/weatherApp/node_modules/browserify-handlebars/node_modules/handlebars/dist/cjs/handlebars.runtime":6}]},{},[1])

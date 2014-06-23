@@ -1,12 +1,17 @@
 html {
   background-color:black;
-  background-image:
+  max-width: 900px;
+  /*background-image:
   url("http://traveloregon.com/wp-content/uploads/2011/11/tocomshomehood_2000x700-2000x1200.jpg");
-}
+*/}
 
 body {
-  width: 900px;
+  max-width: 900px;
+  /*height: 1000px;*/
   margin: 20px auto;
+  /*background:#352c35 url('http://traveloregon.com/wp-content/uploads/2011/11/tocomshomehood_2000x700-2000x1200.jpg') 
+  center 20px no-repeat;background-size:100% auto;*/
+  max-width: 1500px
 }
 
 

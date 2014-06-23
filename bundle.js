@@ -1,20 +1,31 @@
 ;(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-$(function () { // wait for on-ready
+$(function () { // beefy js/app.js:bundle.js --live
 
-var SummaryView = require('./views/summary.js');
-var DetailView = require('./views/details.js');
-var ForecastView = require('./views/forecast.js');
+	var SummaryView = require('./views/summary.js');
+	var DetailView = require('./views/details.js');
+	var ForecastView = require('./views/forecast.js');
 
-var WeatherModel = require('./models/weather');
+	var WeatherModel = require('./models/weather');
 
-var app = {};
-app.views = {};
-app.models = {};
+	var app = {};
+	app.views = {};
+	app.models = {};
 
-var APIKey = "8783b7b8e12ec2201c7d2e9f20666411"
-var LatLong = "45.532814,-122.689296"
+//Geolocation
+function success(position) {
+	var latitude  = position.coords.latitude;
+	var longitude = position.coords.longitude;
 
-var url = "https://api.forecast.io/forecast/" + APIKey + '/' + LatLong;
+	LatLong = latitude + "," + longitude;
+
+	weatherRequest(LatLong);
+};
+
+navigator.geolocation.getCurrentPosition(success);
+
+
+// var LatLong = "45.532814,-122.689296"
+
 
 app.models.currentWeather = new WeatherModel({currently: {}});
 
@@ -24,9 +35,16 @@ app.views.forecast = new ForecastView({model: app.models.currentWeather});
 
 window.app = app;
 
-$.getJSON(url + "?callback=?", null, function(weatherData) {
-  app.models.currentWeather.set(weatherData);
-});
+function weatherRequest(latlong) {
+
+	var APIKey = "8783b7b8e12ec2201c7d2e9f20666411"
+	var url = "https://api.forecast.io/forecast/" + APIKey + '/' + LatLong;
+
+	$.getJSON(url + "?callback=?", null, function(weatherData) {
+		app.models.currentWeather.set(weatherData);
+	});
+
+};
 
 });
 },{"./models/weather":2,"./views/details.js":3,"./views/forecast.js":4,"./views/summary.js":5}],2:[function(require,module,exports){
@@ -641,7 +659,11 @@ function program1(depth0,data) {
   if (stack1 = helpers.minTemp) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = (depth0 && depth0.minTemp); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
   buffer += escapeExpression(stack1)
-    + "</td> <td>";
+    + "</td> <td> ";
+  if (stack1 = helpers.summary) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = (depth0 && depth0.summary); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
+  buffer += escapeExpression(stack1)
+    + " </td> <td>";
   if (stack1 = helpers.sunriseDude) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = (depth0 && depth0.sunriseDude); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
   buffer += escapeExpression(stack1)
@@ -649,15 +671,11 @@ function program1(depth0,data) {
   if (stack1 = helpers.sunsetDude) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = (depth0 && depth0.sunsetDude); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
   buffer += escapeExpression(stack1)
-    + " </td> <td> ";
-  if (stack1 = helpers.summary) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = (depth0 && depth0.summary); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
-  buffer += escapeExpression(stack1)
     + " </td>\n	</tr>\n	";
   return buffer;
   }
 
-  buffer += "<table class=\"table table-striped\">\n	<thead>\n		<tr>\n			<th>day</th><th>high</th><th>low</th><th>sunrise</th><th>sunset</th><th>conditions</th>\n		</tr>\n	</thead>\n<tbody>\n\n	";
+  buffer += "<table class=\"table table-striped\">\n	<thead>\n		<tr>\n			<th>day</th> <th>high</th><th>low</th><th>conditions</th><th>sunrise</th><th>sunset</th>\n		</tr>\n	</thead>\n<tbody>\n\n	";
   stack1 = helpers.each.call(depth0, (depth0 && depth0.sevenDayForecast), {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\n\n</tbody>	\n</table>\n\n";
@@ -670,9 +688,9 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression;
 
 
-  buffer += "<h1>The current temperature is "
+  buffer += "<h1>Current temperature: "
     + escapeExpression(((stack1 = ((stack1 = (depth0 && depth0.currently)),stack1 == null || stack1 === false ? stack1 : stack1.temperature)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
-    + "</h1>\n<h1>The sky is "
+    + "</h1>\n<h1>Current conditions "
     + escapeExpression(((stack1 = ((stack1 = (depth0 && depth0.currently)),stack1 == null || stack1 === false ? stack1 : stack1.summary)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
     + "</h1>";
   return buffer;
